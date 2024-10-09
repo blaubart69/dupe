@@ -48,10 +48,10 @@ int wmain(int argc, wchar_t* argv[])
 
 func FindFirst(filename string, buf *[]uint16) (syscall.Handle, string, error) {
 
-	len := len(*buf)
+	var len uint32 = uint32(len(*buf))
 	ptrBuf := &((*buf)[0])
 
-	utf16Filename := StringToUTF16Ptr(filename)
+	utf16Filename := stringToUTF16Ptr(filename)
 
 	for {
 		hFind, _, lastErr := FindFirstFileNameW.Call(
@@ -75,7 +75,7 @@ func FindFirst(filename string, buf *[]uint16) (syscall.Handle, string, error) {
 }
 
 func FindNext(hFind syscall.Handle, buf *[]uint16) (string, error) {
-	len := len(*buf)
+	var len uint32 = uint32(len(*buf))
 	ptrBuf := &((*buf)[0])
 
 	for {
@@ -123,9 +123,9 @@ func findHardlinks(filename string, buf *[]uint16) ([]string, error) {
 	return filenames, nil
 }
 
-// StringToUTF16Ptr converts a Go string into a pointer to a null-terminated UTF-16 wide string.
+// stringToUTF16Ptr converts a Go string into a pointer to a null-terminated UTF-16 wide string.
 // This assumes str is of a UTF-8 compatible encoding so that it can be re-encoded as UTF-16.
-func StringToUTF16Ptr(str string) *uint16 {
+func stringToUTF16Ptr(str string) *uint16 {
 	wchars := utf16.Encode([]rune(str + "\x00"))
 	return &wchars[0]
 }

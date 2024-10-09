@@ -10,7 +10,7 @@
 			"request": "launch",
 			"mode": "auto",
 			"program": "${fileDirname}", 
-			"args": [ "-e", "c:\\temp\\hard\\a.txt"]
+			"args": [ "-f", "hashes_sorted.txt", "-w", "1"]
 		}
 	]
 }
